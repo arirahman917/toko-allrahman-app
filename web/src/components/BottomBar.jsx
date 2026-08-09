@@ -46,7 +46,7 @@ export default function BottomBar({ cart, onOpenIdentity, onOpenCart, onSubmit, 
 
       <button 
         className="btn-pesan" 
-        disabled={isCartEmpty || !hasIdentity}
+        disabled={isCartEmpty}
         onClick={onSubmit}
       >
         Pesan

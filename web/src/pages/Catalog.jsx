@@ -25,6 +25,7 @@ export default function Catalog() {
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showIdentityWarning, setShowIdentityWarning] = useState(false);
 
   useEffect(() => {
     fetchCategories();
@@ -60,7 +61,7 @@ export default function Catalog() {
 
   const handleSubmitOrder = async () => {
     if (!identity) {
-      setIsIdentityOpen(true);
+      setShowIdentityWarning(true);
       return;
     }
     if (cart.length === 0) return;
@@ -186,6 +187,42 @@ export default function Catalog() {
         isOpen={isSuccessOpen}
         onClose={() => setIsSuccessOpen(false)}
       />
+
+      {showIdentityWarning && (
+        <div className="modal-overlay" style={{ zIndex: 999, justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ 
+            background: 'white', padding: 28, borderRadius: 20, 
+            textAlign: 'center', maxWidth: 320, width: '90%',
+            animation: 'zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
+          }}>
+            <div style={{ fontSize: 48, marginBottom: 12 }}>👋</div>
+            <div style={{ fontWeight: 700, fontSize: 18, marginBottom: 8 }}>Hai, Kak!</div>
+            <div style={{ color: '#6B7280', fontSize: 14, marginBottom: 24, lineHeight: 1.5 }}>
+              Sebelum pesan, isi identitas dulu yaa biar kami bisa menghubungi dan mengantar pesanannya 😊
+            </div>
+            <button 
+              onClick={() => { setShowIdentityWarning(false); setIsIdentityOpen(true); }}
+              style={{
+                width: '100%', padding: 14, background: '#0A55D9', color: 'white',
+                border: 'none', borderRadius: 100, fontWeight: 600, fontSize: 15,
+                cursor: 'pointer', marginBottom: 8
+              }}
+            >
+              Isi Identitas
+            </button>
+            <button 
+              onClick={() => setShowIdentityWarning(false)}
+              style={{
+                width: '100%', padding: 12, background: '#F3F4F6', color: '#6B7280',
+                border: 'none', borderRadius: 100, fontWeight: 500, fontSize: 14,
+                cursor: 'pointer'
+              }}
+            >
+              Nanti dulu
+            </button>
+          </div>
+        </div>
+      )}
 
       {isSubmitting && (
         <div className="modal-overlay" style={{ zIndex: 999, justifyContent: 'center', alignItems: 'center' }}>

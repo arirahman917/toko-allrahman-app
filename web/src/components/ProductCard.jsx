@@ -18,9 +18,7 @@ export default function ProductCard({ product, cartItem, onUpdateCart }) {
 
   const handlePlus = (e) => {
     e.stopPropagation();
-    if (qty < product.stock) {
-      onUpdateCart(product, qty + 1);
-    }
+    onUpdateCart(product, qty + 1);
   };
 
   const handleMinus = (e) => {
@@ -31,7 +29,7 @@ export default function ProductCard({ product, cartItem, onUpdateCart }) {
   };
 
   const handleCardClick = () => {
-    if (qty === 0 && product.stock > 0) {
+    if (qty === 0) {
       onUpdateCart(product, 1);
     }
   };
@@ -60,7 +58,6 @@ export default function ProductCard({ product, cartItem, onUpdateCart }) {
             <span className="product-price">{formatRp(product.price)}</span>
             <span className="product-unit">/{product.unit}</span>
           </div>
-          <div className="product-stock">Stok: {product.stock}</div>
         </div>
 
         {isSelected && (

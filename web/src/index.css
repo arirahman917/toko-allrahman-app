@@ -133,7 +133,7 @@ body {
 
 /* Product Card */
 .product-grid {
-  padding: 200px 20px 24px 20px; /* top: fixed header clearance, bottom: spacing before bar */
+  padding: 230px 20px 24px 20px; /* top: fixed header clearance, bottom: spacing before bar */
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -196,15 +196,7 @@ body {
   color: var(--text-muted);
 }
 
-.product-stock {
-  align-self: flex-start;
-  padding: 4px 10px;
-  background-color: #E0E7FF;
-  color: #3730A3;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-}
+
 
 /* Selected State Enhancements */
 .selected-actions {
