@@ -58,19 +58,18 @@ export default function ProductCard({ product, cartItem, onUpdateCart }) {
             <span className="product-price">{formatRp(product.price)}</span>
             <span className="product-unit">/{product.unit}</span>
           </div>
-        </div>
-
-        {isSelected && (
-          <div className="selected-actions">
-            <div className="total-price-text">{formatRp(product.price * qty)}</div>
-            
-            <div className="qty-control">
-              <button className="qty-btn minus" onClick={handleMinus}>-</button>
-              <div className="qty-value">{qty}</div>
-              <button className="qty-btn plus" onClick={handlePlus}>+</button>
+          
+          {isSelected && (
+            <div className="selected-actions-inline">
+              <div className="qty-control-inline">
+                <button className="qty-btn-inline minus" onClick={handleMinus}>-</button>
+                <div className="qty-value-inline">{qty}</div>
+                <button className="qty-btn-inline plus" onClick={handlePlus}>+</button>
+              </div>
+              <div className="total-price-inline">{formatRp(product.price * qty)}</div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {showPreview && ReactDOM.createPortal(

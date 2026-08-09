@@ -15,23 +15,30 @@ function FloatingInput({ icon, label, value, onChange, type = 'text', error, err
   else if (hasValue) borderColor = '#1A1D23';
 
   return (
-    <div className="floating-row">
-      <div className="floating-icon">{icon}</div>
-      <div className="floating-field" style={{ borderColor }}>
-        <label className={`floating-label ${isFloating ? 'floating' : ''}`} style={{
-          color: error ? '#EF4444' : focused ? 'var(--primary)' : 'var(--text-muted)'
-        }}>
-          {error ? errorMsg : label}
-        </label>
-        <input
-          type={type}
-          className="floating-input"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-        />
+    <div style={{ marginBottom: error ? 12 : 0 }}>
+      <div className="floating-row">
+        <div className="floating-icon">{icon}</div>
+        <div className="floating-field" style={{ borderColor }}>
+          <label className={`floating-label ${isFloating ? 'floating' : ''}`} style={{
+            color: error ? '#EF4444' : focused ? 'var(--primary)' : 'var(--text-muted)'
+          }}>
+            {label}
+          </label>
+          <input
+            type={type}
+            className="floating-input"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+          />
+        </div>
       </div>
+      {error && (
+        <div style={{ fontSize: 12, color: '#EF4444', marginTop: 4, marginLeft: 44 }}>
+          {errorMsg}
+        </div>
+      )}
     </div>
   );
 }
@@ -54,20 +61,27 @@ function FloatingDateTimeInput({ icon, label, value, onClick, error, errorMsg })
   };
 
   return (
-    <div className="floating-row">
-      <div className="floating-icon">{icon}</div>
-      <div
-        className="floating-field"
-        style={{ borderColor, cursor: 'pointer' }}
-        onClick={onClick}
-      >
-        <label className={`floating-label ${isFloating ? 'floating' : ''}`} style={{
-          color: error ? '#EF4444' : 'var(--text-muted)'
-        }}>
-          {error ? errorMsg : label}
-        </label>
-        {hasValue && <div className="floating-display-text">{formatDisplay(value)}</div>}
+    <div style={{ marginBottom: error ? 12 : 0 }}>
+      <div className="floating-row">
+        <div className="floating-icon">{icon}</div>
+        <div
+          className="floating-field"
+          style={{ borderColor, cursor: 'pointer' }}
+          onClick={onClick}
+        >
+          <label className={`floating-label ${isFloating ? 'floating' : ''}`} style={{
+            color: error ? '#EF4444' : 'var(--text-muted)'
+          }}>
+            {label}
+          </label>
+          {hasValue && <div className="floating-display-text">{formatDisplay(value)}</div>}
+        </div>
       </div>
+      {error && (
+        <div style={{ fontSize: 12, color: '#EF4444', marginTop: 4, marginLeft: 44 }}>
+          {errorMsg}
+        </div>
+      )}
     </div>
   );
 }

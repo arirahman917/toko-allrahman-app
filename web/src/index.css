@@ -39,7 +39,7 @@ body {
 
 /* Header */
 .header {
-  padding: 24px 20px 16px 20px;
+  padding: 16px 16px 12px 16px;
   position: sticky;
   top: 0;
   width: 100%;
@@ -133,15 +133,15 @@ body {
 
 /* Product Card */
 .product-list-container {
-  padding: 16px 20px 24px 20px;
+  padding: 12px 16px 24px 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .product-card {
   display: flex;
-  padding: 16px;
+  padding: 12px;
   border-radius: 12px;
   background: var(--bg-card);
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
@@ -199,53 +199,55 @@ body {
 
 
 /* Selected State Enhancements */
-.selected-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-between;
-}
-
-.total-price-text {
-  color: var(--primary);
-  font-weight: 700;
-  font-size: 16px;
-}
-
-.qty-control {
+.selected-actions-inline {
   display: flex;
   align-items: center;
-  background-color: #E5E7EB;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-top: auto;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border-light);
 }
 
-.qty-btn {
-  width: 32px;
-  height: 32px;
+.qty-control-inline {
+  display: flex;
+  align-items: center;
+  background-color: #F3F4F6;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.qty-btn-inline {
+  width: 28px;
+  height: 28px;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
 }
-.qty-btn.minus {
+
+.qty-btn-inline.minus {
   background-color: var(--danger);
   color: white;
-  border-radius: 50%;
 }
-.qty-btn.plus {
+
+.qty-btn-inline.plus {
   background-color: var(--success);
   color: white;
-  border-radius: 50%;
 }
-.qty-value {
+
+.qty-value-inline {
   width: 32px;
   text-align: center;
   font-weight: 600;
+  font-size: 14px;
+}
+
+.total-price-inline {
+  color: var(--primary);
+  font-weight: 700;
   font-size: 14px;
 }
 
