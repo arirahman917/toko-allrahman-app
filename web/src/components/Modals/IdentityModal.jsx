@@ -164,12 +164,14 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
     minutesList.sort();
   }
 
-  const handleWheelScroll = (e, list, setter) => {
+  const handleWheelScroll = (e, list, currentVal, setter) => {
     if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
     const target = e.target;
     scrollTimeout.current = setTimeout(() => {
       const idx = Math.round(target.scrollTop / 50);
-      if (list[idx]) setter(list[idx]);
+      if (list[idx] && list[idx] !== currentVal) {
+        setter(list[idx]);
+      }
     }, 150);
   };
 
@@ -188,7 +190,7 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
   return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose} style={{ zIndex: 200, alignItems: 'center' }}>
       <div className="custom-datetime-modal" onClick={e => e.stopPropagation()}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, position: 'sticky', top: -24, background: 'white', paddingTop: 24, paddingBottom: 8, zIndex: 10 }}>
           <div style={{ width: 24 }} /> {/* Spacer */}
           <h3 style={{ textAlign: 'center', fontWeight: 700, margin: 0 }}>Pilih Waktu Pesanan</h3>
           <button className="close-btn" style={{ background: 'transparent', border: 'none', cursor: 'pointer' }} onClick={onClose}><X size={24} /></button>
@@ -241,7 +243,7 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
               <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8 }}>Jam</div>
               <div className="wheel-container">
                 <div className="wheel-highlight" />
-                <div className="wheel-picker" ref={hourRef} onScroll={(e) => handleWheelScroll(e, hoursList, setHour)}>
+                <div className="wheel-picker" ref={hourRef} onScroll={(e) => handleWheelScroll(e, hoursList, hour, setHour)}>
                   <div className="wheel-spacer" />
                   {hoursList.map(h => (
                     <div 
@@ -263,7 +265,7 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
               <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8 }}>Menit</div>
               <div className="wheel-container">
                 <div className="wheel-highlight" />
-                <div className="wheel-picker" ref={minuteRef} onScroll={(e) => handleWheelScroll(e, minutesList, setMinute)}>
+                <div className="wheel-picker" ref={minuteRef} onScroll={(e) => handleWheelScroll(e, minutesList, minute, setMinute)}>
                   <div className="wheel-spacer" />
                   {minutesList.map(m => (
                     <div 
@@ -282,9 +284,11 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
           </div>
         </div>
 
-        <button className="btn-pesan" style={{ marginTop: 24 }} onClick={handleSave}>
-          Terapkan Waktu
-        </button>
+        <div style={{ position: 'sticky', bottom: -24, background: 'white', paddingTop: 16, paddingBottom: 24, zIndex: 10 }}>
+          <button className="btn-pesan" onClick={handleSave}>
+            Terapkan Waktu
+          </button>
+        </div>
       </div>
     </div>,
     document.body
