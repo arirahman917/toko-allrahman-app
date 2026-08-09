@@ -15,8 +15,8 @@ function FloatingInput({ icon, label, value, onChange, type = 'text', error, err
   else if (hasValue) borderColor = '#1A1D23';
 
   return (
-    <div style={{ marginBottom: error ? 12 : 0 }}>
-      <div className="floating-row">
+    <div style={{ marginBottom: 20 }}>
+      <div className="floating-row" style={{ marginBottom: error ? 4 : 0 }}>
         <div className="floating-icon">{icon}</div>
         <div className="floating-field" style={{ borderColor }}>
           <label className={`floating-label ${isFloating ? 'floating' : ''}`} style={{
@@ -35,7 +35,7 @@ function FloatingInput({ icon, label, value, onChange, type = 'text', error, err
         </div>
       </div>
       {error && (
-        <div style={{ fontSize: 12, color: '#EF4444', marginTop: 4, marginLeft: 44 }}>
+        <div style={{ fontSize: 12, color: '#EF4444', marginLeft: 44 }}>
           {errorMsg}
         </div>
       )}
@@ -61,8 +61,8 @@ function FloatingDateTimeInput({ icon, label, value, onClick, error, errorMsg })
   };
 
   return (
-    <div style={{ marginBottom: error ? 12 : 0 }}>
-      <div className="floating-row">
+    <div style={{ marginBottom: 20 }}>
+      <div className="floating-row" style={{ marginBottom: error ? 4 : 0 }}>
         <div className="floating-icon">{icon}</div>
         <div
           className="floating-field"
@@ -78,7 +78,7 @@ function FloatingDateTimeInput({ icon, label, value, onClick, error, errorMsg })
         </div>
       </div>
       {error && (
-        <div style={{ fontSize: 12, color: '#EF4444', marginTop: 4, marginLeft: 44 }}>
+        <div style={{ fontSize: 12, color: '#EF4444', marginLeft: 44 }}>
           {errorMsg}
         </div>
       )}
@@ -114,7 +114,7 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
   for (let i = 1; i <= daysInMonth; i++) days.push(i);
 
   const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-  
+
   const handlePrevMonth = () => setCurrentMonthDate(new Date(year, month - 1, 1));
   const handleNextMonth = () => setCurrentMonthDate(new Date(year, month + 1, 1));
 
@@ -126,8 +126,8 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
     onClose();
   };
 
-  const hoursList = Array.from({length: 24}).map((_, i) => i.toString().padStart(2, '0'));
-  const minutesList = Array.from({length: 12}).map((_, i) => (i * 5).toString().padStart(2, '0'));
+  const hoursList = Array.from({ length: 24 }).map((_, i) => i.toString().padStart(2, '0'));
+  const minutesList = Array.from({ length: 12 }).map((_, i) => (i * 5).toString().padStart(2, '0'));
   if (!minutesList.includes(minute)) {
     minutesList.push(minute);
     minutesList.sort();
@@ -135,80 +135,80 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
 
   return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose} style={{ zIndex: 200, alignItems: 'center' }}>
-       <div className="custom-datetime-modal" onClick={e => e.stopPropagation()}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <div style={{ width: 24 }} /> {/* Spacer */}
-            <h3 style={{ textAlign: 'center', fontWeight: 700, margin: 0 }}>Pilih Waktu Pesanan</h3>
-            <button className="close-btn" style={{ background: 'transparent', border: 'none', cursor: 'pointer' }} onClick={onClose}><X size={24} /></button>
-          </div>
-          
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-             <button className="cal-nav-btn" onClick={handlePrevMonth}>&lt;</button>
-             <span style={{ fontWeight: 600, fontSize: 16 }}>{months[month]} {year}</span>
-             <button className="cal-nav-btn" onClick={handleNextMonth}>&gt;</button>
-          </div>
-          
-          <div className="cal-grid">
-             {['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'].map(d => (
-               <div key={d} className="cal-day-header">{d}</div>
-             ))}
-             {days.map((d, i) => {
-                if (!d) return <div key={`empty-${i}`} />;
-                const isSelected = selectedDate.getDate() === d && selectedDate.getMonth() === month && selectedDate.getFullYear() === year;
-                const isToday = new Date().getDate() === d && new Date().getMonth() === month && new Date().getFullYear() === year;
-                
-                let className = "cal-day-btn";
-                if (isSelected) className += " selected";
-                else if (isToday) className += " today";
+      <div className="custom-datetime-modal" onClick={e => e.stopPropagation()}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+          <div style={{ width: 24 }} /> {/* Spacer */}
+          <h3 style={{ textAlign: 'center', fontWeight: 700, margin: 0 }}>Pilih Waktu Pesanan</h3>
+          <button className="close-btn" style={{ background: 'transparent', border: 'none', cursor: 'pointer' }} onClick={onClose}><X size={24} /></button>
+        </div>
 
-                return (
-                  <button 
-                    key={i} 
-                    className={className}
-                    onClick={() => setSelectedDate(new Date(year, month, d))}
-                  >
-                    {d}
-                  </button>
-                );
-             })}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <button className="cal-nav-btn" onClick={handlePrevMonth}>&lt;</button>
+          <span style={{ fontWeight: 600, fontSize: 16 }}>{months[month]} {year}</span>
+          <button className="cal-nav-btn" onClick={handleNextMonth}>&gt;</button>
+        </div>
+
+        <div className="cal-grid">
+          {['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'].map(d => (
+            <div key={d} className="cal-day-header">{d}</div>
+          ))}
+          {days.map((d, i) => {
+            if (!d) return <div key={`empty-${i}`} />;
+            const isSelected = selectedDate.getDate() === d && selectedDate.getMonth() === month && selectedDate.getFullYear() === year;
+            const isToday = new Date().getDate() === d && new Date().getMonth() === month && new Date().getFullYear() === year;
+
+            let className = "cal-day-btn";
+            if (isSelected) className += " selected";
+            else if (isToday) className += " today";
+
+            return (
+              <button
+                key={i}
+                className={className}
+                onClick={() => setSelectedDate(new Date(year, month, d))}
+              >
+                {d}
+              </button>
+            );
+          })}
+        </div>
+
+        <div style={{ height: 1, backgroundColor: 'var(--border-light)', margin: '16px 0' }} />
+
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8 }}>Pilih Jam</div>
+          <div className="time-scroll-row">
+            {hoursList.map(h => (
+              <button
+                key={`h-${h}`}
+                className={`time-chip ${hour === h ? 'active' : ''}`}
+                onClick={() => setHour(h)}
+              >
+                {h}
+              </button>
+            ))}
           </div>
+        </div>
 
-          <div style={{ height: 1, backgroundColor: 'var(--border-light)', margin: '16px 0' }} />
-
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8 }}>Pilih Jam</div>
-            <div className="time-scroll-row">
-              {hoursList.map(h => (
-                <button 
-                  key={`h-${h}`} 
-                  className={`time-chip ${hour === h ? 'active' : ''}`}
-                  onClick={() => setHour(h)}
-                >
-                  {h}
-                </button>
-              ))}
-            </div>
+        <div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8 }}>Pilih Menit</div>
+          <div className="time-scroll-row">
+            {minutesList.map(m => (
+              <button
+                key={`m-${m}`}
+                className={`time-chip ${minute === m ? 'active' : ''}`}
+                onClick={() => setMinute(m)}
+              >
+                {m}
+              </button>
+            ))}
           </div>
+        </div>
 
-          <div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8 }}>Pilih Menit</div>
-            <div className="time-scroll-row">
-              {minutesList.map(m => (
-                <button 
-                  key={`m-${m}`} 
-                  className={`time-chip ${minute === m ? 'active' : ''}`}
-                  onClick={() => setMinute(m)}
-                >
-                  {m}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <button className="btn-pesan" style={{ marginTop: 24 }} onClick={handleSave}>
-            Terapkan Waktu
-          </button>
-       </div>
+        <button className="btn-pesan" style={{ marginTop: 24 }} onClick={handleSave}>
+          Terapkan Waktu
+        </button>
+      </div>
     </div>,
     document.body
   );
@@ -398,7 +398,7 @@ export default function IdentityModal({ isOpen, onClose, identity, onSave }) {
           {/* Form Body */}
           <div className="identity-form-body" style={{ padding: '12px 24px 0 24px' }}>
             <FloatingInput
-              icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>}
+              icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" /></svg>}
               label="Nama"
               value={formData.name}
               onChange={(v) => handleChange('name', v)}
@@ -407,7 +407,7 @@ export default function IdentityModal({ isOpen, onClose, identity, onSave }) {
             />
 
             <FloatingInput
-              icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>}
+              icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z" /></svg>}
               label="Nomor WhatsApp"
               value={formData.whatsapp}
               onChange={(v) => handleChange('whatsapp', v)}
@@ -458,7 +458,7 @@ export default function IdentityModal({ isOpen, onClose, identity, onSave }) {
             )}
 
             <FloatingDateTimeInput
-              icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>}
+              icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>}
               label="Pesanan untuk kapan?"
               value={formData.orderDate}
               onClick={() => setShowDateTimeModal(true)}
@@ -490,8 +490,8 @@ export default function IdentityModal({ isOpen, onClose, identity, onSave }) {
         isOpen={showLocationModal}
         onClose={() => setShowLocationModal(false)}
         onLocationSelect={(loc) => {
-           handleChange('location', loc);
-           setShowLocationModal(false);
+          handleChange('location', loc);
+          setShowLocationModal(false);
         }}
       />
 
