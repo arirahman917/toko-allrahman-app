@@ -12,7 +12,7 @@ import SuccessModal from '../components/Modals/SuccessModal';
 export default function Catalog() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  
+
   const [search, setSearch] = useState('');
   const [sortDesc, setSortDesc] = useState(false);
   const [selectedCat, setSelectedCat] = useState('Semua');
@@ -67,7 +67,7 @@ export default function Catalog() {
     if (cart.length === 0) return;
 
     setIsSubmitting(true);
-    
+
     // Generate UUID via crypto (supported in modern browsers)
     const orderId = crypto.randomUUID();
     const totalAmount = cart.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
@@ -101,7 +101,7 @@ export default function Catalog() {
       }));
 
       const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
-      
+
       if (itemsError) throw itemsError;
 
       // Success
@@ -132,7 +132,7 @@ export default function Catalog() {
 
   return (
     <div className="container">
-      <Header 
+      <Header
         search={search}
         setSearch={setSearch}
         sortDesc={sortDesc}
@@ -145,7 +145,7 @@ export default function Catalog() {
 
       <div className="product-grid">
         {filteredProducts.map(product => (
-          <ProductCard 
+          <ProductCard
             key={product.id}
             product={product}
             cartItem={cart.find(item => item.product.id === product.id)}
@@ -159,7 +159,7 @@ export default function Catalog() {
         )}
       </div>
 
-      <BottomBar 
+      <BottomBar
         cart={cart}
         hasIdentity={!!identity}
         onOpenIdentity={() => setIsIdentityOpen(true)}
@@ -167,7 +167,7 @@ export default function Catalog() {
         onSubmit={handleSubmitOrder}
       />
 
-      <IdentityModal 
+      <IdentityModal
         isOpen={isIdentityOpen}
         onClose={() => setIsIdentityOpen(false)}
         identity={identity}
@@ -176,31 +176,31 @@ export default function Catalog() {
         }}
       />
 
-      <CartModal 
+      <CartModal
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         cart={cart}
         onRemoveItem={handleRemoveFromCart}
       />
 
-      <SuccessModal 
+      <SuccessModal
         isOpen={isSuccessOpen}
         onClose={() => setIsSuccessOpen(false)}
       />
 
       {showIdentityWarning && (
         <div className="modal-overlay" style={{ zIndex: 999, justifyContent: 'center', alignItems: 'center' }}>
-          <div style={{ 
-            background: 'white', padding: 28, borderRadius: 20, 
+          <div style={{
+            background: 'white', padding: 28, borderRadius: 20,
             textAlign: 'center', maxWidth: 320, width: '90%',
             animation: 'zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
           }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>👋</div>
-            <div style={{ fontWeight: 700, fontSize: 18, marginBottom: 8 }}>Hai, Kak!</div>
+            <div style={{ fontWeight: 700, fontSize: 18, marginBottom: 8 }}>Halo, Pak/Bu!</div>
             <div style={{ color: '#6B7280', fontSize: 14, marginBottom: 24, lineHeight: 1.5 }}>
               Sebelum pesan, isi identitas dulu yaa biar kami bisa menghubungi dan mengantar pesanannya 😊
             </div>
-            <button 
+            <button
               onClick={() => { setShowIdentityWarning(false); setIsIdentityOpen(true); }}
               style={{
                 width: '100%', padding: 14, background: '#0A55D9', color: 'white',
@@ -210,7 +210,7 @@ export default function Catalog() {
             >
               Isi Identitas
             </button>
-            <button 
+            <button
               onClick={() => setShowIdentityWarning(false)}
               style={{
                 width: '100%', padding: 12, background: '#F3F4F6', color: '#6B7280',

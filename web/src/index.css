@@ -40,7 +40,7 @@ body {
 /* Header */
 .header {
   padding: 24px 20px 16px 20px;
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   max-width: 480px;
@@ -133,7 +133,7 @@ body {
 
 /* Product Card */
 .product-grid {
-  padding: 230px 20px 24px 20px; /* top: fixed header clearance, bottom: spacing before bar */
+  padding: 16px 20px 24px 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
