@@ -92,6 +92,10 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
   const [selectedDate, setSelectedDate] = useState(() => initialValue ? new Date(initialValue) : new Date());
   const [hour, setHour] = useState(() => initialValue ? new Date(initialValue).getHours().toString().padStart(2, '0') : '08');
   const [minute, setMinute] = useState(() => initialValue ? new Date(initialValue).getMinutes().toString().padStart(2, '0') : '00');
+  
+  const hourRef = useRef(null);
+  const minuteRef = useRef(null);
+  const scrollTimeout = useRef(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -99,6 +103,23 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
       setSelectedDate(initialValue ? new Date(initialValue) : new Date());
       setHour(initialValue ? new Date(initialValue).getHours().toString().padStart(2, '0') : '08');
       setMinute(initialValue ? new Date(initialValue).getMinutes().toString().padStart(2, '0') : '00');
+      
+      setTimeout(() => {
+        if (hourRef.current) {
+          const idx = hoursList.indexOf(initialValue ? new Date(initialValue).getHours().toString().padStart(2, '0') : '08');
+          if (idx >= 0) hourRef.current.scrollTop = idx * 50;
+        }
+        if (minuteRef.current) {
+          const mVal = initialValue ? new Date(initialValue).getMinutes().toString().padStart(2, '0') : '00';
+          let idx = minutesList.indexOf(mVal);
+          if (idx < 0) {
+            minutesList.push(mVal);
+            minutesList.sort();
+            idx = minutesList.indexOf(mVal);
+          }
+          if (idx >= 0) minuteRef.current.scrollTop = idx * 50;
+        }
+      }, 100);
     }
   }, [isOpen, initialValue]);
 
@@ -115,7 +136,17 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
 
   const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
-  const handlePrevMonth = () => setCurrentMonthDate(new Date(year, month - 1, 1));
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Check if we can go to previous month
+  const currentViewMonthStart = new Date(year, month, 1);
+  const thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+  const canGoPrev = currentViewMonthStart > thisMonthStart;
+
+  const handlePrevMonth = () => {
+    if (canGoPrev) setCurrentMonthDate(new Date(year, month - 1, 1));
+  };
   const handleNextMonth = () => setCurrentMonthDate(new Date(year, month + 1, 1));
 
   const handleSave = () => {
@@ -133,6 +164,27 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
     minutesList.sort();
   }
 
+  const handleWheelScroll = (e, list, setter) => {
+    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    const target = e.target;
+    scrollTimeout.current = setTimeout(() => {
+      const idx = Math.round(target.scrollTop / 50);
+      if (list[idx]) setter(list[idx]);
+    }, 150);
+  };
+
+  const handleHourClick = (h) => {
+    setHour(h);
+    const idx = hoursList.indexOf(h);
+    if (hourRef.current) hourRef.current.scrollTo({ top: idx * 50, behavior: 'smooth' });
+  };
+
+  const handleMinuteClick = (m) => {
+    setMinute(m);
+    const idx = minutesList.indexOf(m);
+    if (minuteRef.current) minuteRef.current.scrollTo({ top: idx * 50, behavior: 'smooth' });
+  };
+
   return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose} style={{ zIndex: 200, alignItems: 'center' }}>
       <div className="custom-datetime-modal" onClick={e => e.stopPropagation()}>
@@ -143,7 +195,7 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-          <button className="cal-nav-btn" onClick={handlePrevMonth}>&lt;</button>
+          <button className="cal-nav-btn" onClick={handlePrevMonth} disabled={!canGoPrev} style={{ opacity: canGoPrev ? 1 : 0.3 }}>&lt;</button>
           <span style={{ fontWeight: 600, fontSize: 16 }}>{months[month]} {year}</span>
           <button className="cal-nav-btn" onClick={handleNextMonth}>&gt;</button>
         </div>
@@ -154,18 +206,25 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
           ))}
           {days.map((d, i) => {
             if (!d) return <div key={`empty-${i}`} />;
+            
+            const cellDate = new Date(year, month, d);
+            const isPast = cellDate < today;
+            
             const isSelected = selectedDate.getDate() === d && selectedDate.getMonth() === month && selectedDate.getFullYear() === year;
-            const isToday = new Date().getDate() === d && new Date().getMonth() === month && new Date().getFullYear() === year;
+            const isToday = today.getDate() === d && today.getMonth() === month && today.getFullYear() === year;
 
             let className = "cal-day-btn";
             if (isSelected) className += " selected";
             else if (isToday) className += " today";
+            
+            if (isPast) className += " disabled";
 
             return (
               <button
                 key={i}
                 className={className}
-                onClick={() => setSelectedDate(new Date(year, month, d))}
+                disabled={isPast}
+                onClick={() => setSelectedDate(cellDate)}
               >
                 {d}
               </button>
@@ -175,33 +234,51 @@ function CustomDateTimePickerModal({ isOpen, onClose, onSave, initialValue }) {
 
         <div style={{ height: 1, backgroundColor: 'var(--border-light)', margin: '16px 0' }} />
 
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8 }}>Pilih Jam</div>
-          <div className="time-scroll-row">
-            {hoursList.map(h => (
-              <button
-                key={`h-${h}`}
-                className={`time-chip ${hour === h ? 'active' : ''}`}
-                onClick={() => setHour(h)}
-              >
-                {h}
-              </button>
-            ))}
-          </div>
-        </div>
+        <div style={{ padding: '8px 0' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 32 }}>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8 }}>Jam</div>
+              <div className="wheel-container">
+                <div className="wheel-highlight" />
+                <div className="wheel-picker" ref={hourRef} onScroll={(e) => handleWheelScroll(e, hoursList, setHour)}>
+                  <div className="wheel-spacer" />
+                  {hoursList.map(h => (
+                    <div 
+                      key={`h-${h}`} 
+                      className={`wheel-item ${hour === h ? 'active' : ''}`}
+                      onClick={() => handleHourClick(h)}
+                    >
+                      {h}
+                    </div>
+                  ))}
+                  <div className="wheel-spacer" />
+                </div>
+              </div>
+            </div>
 
-        <div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8 }}>Pilih Menit</div>
-          <div className="time-scroll-row">
-            {minutesList.map(m => (
-              <button
-                key={`m-${m}`}
-                className={`time-chip ${minute === m ? 'active' : ''}`}
-                onClick={() => setMinute(m)}
-              >
-                {m}
-              </button>
-            ))}
+            <div style={{ fontSize: 32, fontWeight: 'bold', display: 'flex', alignItems: 'center', paddingBottom: 0 }}>:</div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8 }}>Menit</div>
+              <div className="wheel-container">
+                <div className="wheel-highlight" />
+                <div className="wheel-picker" ref={minuteRef} onScroll={(e) => handleWheelScroll(e, minutesList, setMinute)}>
+                  <div className="wheel-spacer" />
+                  {minutesList.map(m => (
+                    <div 
+                      key={`m-${m}`} 
+                      className={`wheel-item ${minute === m ? 'active' : ''}`}
+                      onClick={() => handleMinuteClick(m)}
+                    >
+                      {m}
+                    </div>
+                  ))}
+                  <div className="wheel-spacer" />
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
