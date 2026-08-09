@@ -6,7 +6,7 @@ export default function Header({ search, setSearch, sortDesc, setSortDesc, categ
   return (
     <div className="header">
       <div className="logo-row">
-        <img src={logoImg} alt="All Rahman Logo" style={{ height: 32, objectFit: 'contain' }} />
+        <img src={logoImg} alt="All Rahman Logo" style={{ height: 48, objectFit: 'contain' }} />
       </div>
       
       <div style={{ fontWeight: 'bold', marginBottom: 12 }}>Barang <span style={{ color: '#6B7280', fontWeight: 'normal' }}>({totalItems} Item)</span></div>
