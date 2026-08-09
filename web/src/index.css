@@ -211,21 +211,23 @@ body {
 .qty-control-inline {
   display: flex;
   align-items: center;
-  background-color: #F3F4F6;
-  border-radius: 20px;
+  background-color: #EEEEEE;
+  border-radius: 24px;
   overflow: hidden;
+  height: 32px;
 }
 
 .qty-btn-inline {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
+  border-radius: 50%;
 }
 
 .qty-btn-inline.minus {
@@ -239,16 +241,17 @@ body {
 }
 
 .qty-value-inline {
-  width: 32px;
+  width: 40px;
   text-align: center;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
+  color: #111;
 }
 
 .total-price-inline {
   color: var(--primary);
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 /* Bottom Bar */
