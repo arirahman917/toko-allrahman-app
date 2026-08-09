@@ -132,7 +132,7 @@ body {
 }
 
 /* Product Card */
-.product-grid {
+.product-list-container {
   padding: 16px 20px 24px 20px;
   display: flex;
   flex-direction: column;

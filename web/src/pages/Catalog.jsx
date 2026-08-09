@@ -143,7 +143,7 @@ export default function Catalog() {
         totalItems={filteredProducts.length}
       />
 
-      <div className="product-grid">
+      <div className="product-list-container">
         {filteredProducts.map(product => (
           <ProductCard
             key={product.id}
