@@ -33,8 +33,15 @@ export default function Catalog() {
   }, []);
 
   const fetchCategories = async () => {
-    const { data } = await supabase.from('categories').select('*').is('deleted_at', null).order('order_index', { ascending: true });
-    if (data) setCategories(data);
+    const { data, error } = await supabase.from('categories').select('*').is('deleted_at', null);
+    if (error) {
+      console.error('Error fetching categories:', error);
+    }
+    if (data) {
+      // Sort on client side to be safe
+      const sorted = data.sort((a, b) => (a.order_index || 0) - (b.order_index || 0));
+      setCategories(sorted);
+    }
   };
 
   const fetchProducts = async () => {
