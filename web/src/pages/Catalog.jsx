@@ -33,7 +33,7 @@ export default function Catalog() {
   }, []);
 
   const fetchCategories = async () => {
-    const { data } = await supabase.from('categories').select('*').is('deleted_at', null);
+    const { data } = await supabase.from('categories').select('*').is('deleted_at', null).order('order_index', { ascending: true });
     if (data) setCategories(data);
   };
 
