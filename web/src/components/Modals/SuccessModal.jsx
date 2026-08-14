@@ -13,11 +13,11 @@ export default function SuccessModal({ isOpen, onClose }) {
   return (
     <div className="modal-overlay" style={{ zIndex: 200 }}>
       <div className="modal-content centered" style={{ textAlign: 'center', padding: '32px 24px' }}>
-        
-        <div style={{ 
-          width: 64, height: 64, 
-          backgroundColor: '#10B981', 
-          borderRadius: '50%', 
+
+        <div style={{
+          width: 64, height: 64,
+          backgroundColor: '#10B981',
+          borderRadius: '50%',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           margin: '0 auto 16px auto'
         }}>
@@ -25,31 +25,31 @@ export default function SuccessModal({ isOpen, onClose }) {
         </div>
 
         <h2 style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 12 }}>Berhasil</h2>
-        
+
         <p style={{ color: 'var(--text-main)', fontSize: 16, marginBottom: 32, lineHeight: 1.5 }}>
-          Pesanan telah terkirim ke toko Al Rahman
+          Pesanan telah terkirim ke toko All Rahman
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <button 
-            className="btn-pesan" 
+          <button
+            className="btn-pesan"
             style={{ width: '100%' }}
             onClick={onClose}
           >
             Tutup
           </button>
-          
-          <button 
+
+          <button
             onClick={handleWhatsApp}
-            style={{ 
-              width: '100%', 
-              backgroundColor: '#E5E7EB', 
-              color: 'var(--text-main)', 
-              border: 'none', 
-              padding: '16px', 
-              borderRadius: '100px', 
-              fontWeight: 600, 
-              fontSize: 16, 
+            style={{
+              width: '100%',
+              backgroundColor: '#E5E7EB',
+              color: 'var(--text-main)',
+              border: 'none',
+              padding: '16px',
+              borderRadius: '100px',
+              fontWeight: 600,
+              fontSize: 16,
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
