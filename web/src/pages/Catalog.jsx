@@ -126,6 +126,7 @@ export default function Catalog() {
 
   // Derived state for filtering
   let filteredProducts = products.filter(p => {
+    if (p.is_hidden) return false;
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
     const matchCat = selectedCat === 'Semua' || p.category_id === selectedCat;
     return matchSearch && matchCat;
